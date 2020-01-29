@@ -1,0 +1,19 @@
+name: gh actions explorer
+
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Display github build info
+          run: echo 'Building ${{ github.ref }}'
+
+        - uses: actions/checkout@v1
+
+        - name: Display Env
+          run: env
+
+        - name: List Top Folder
+          run: ls -alR
