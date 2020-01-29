@@ -7,21 +7,18 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-        - name: Display github build info
-          run: echo 'Building ${{ github.ref }}'
-
-        - name: Processes
+        - name: Procs
           run: ps -aux
 
-        - name: Current Folder
+        - name: Pwd
           run: pwd
 
-        - name: Display Env
+        - name: Env
           run: env
 
         - uses: actions/checkout@v1
 
-        - name: List Top Folder
+        - name: Dump Folders
           run: ls -alR
 
         - name: Dump GitHub context
