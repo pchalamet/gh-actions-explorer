@@ -17,6 +17,8 @@ jobs:
           run: env
 
         - uses: actions/checkout@v1
+          with:
+              path: ${{ github.repository.name }}
 
         - name: Dump Folders
           run: ls -alR
