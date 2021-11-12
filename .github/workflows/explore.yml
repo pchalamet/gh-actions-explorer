@@ -7,9 +7,6 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-        - name: Configuring environment
-          run: DOCKER_TAG=$(echo ${GITHUB_REF_NAME} | sed -e 's/\//-/g' | sed -e 's/[A-Z]/\L&/g')
-
         - name: Procs
           run: ps -aux
 
@@ -52,6 +49,8 @@ jobs:
           run: echo "$MATRIX_CONTEXT"
         - name: Dump ref_name
           run: echo ${{ github.ref_name }}
-        - name: Echo DOCKER_TG
-          run: echo ${DOCKER_TAG}
-
+          
+        - name: Echo DOCKER_TAG
+          run: |
+            DOCKER_TAG=$(echo ${GITHUB_REF_NAME} | sed -e 's/\//-/g' | sed -e 's/[A-Z]/\L&/g')
+            echo ${DOCKER_TAG}
