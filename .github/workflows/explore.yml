@@ -6,6 +6,9 @@ jobs:
     build:
         runs-on: ubuntu-latest
 
+        substitutions:
+            DOCKER_TAG: ${GITHUB_REF_NAME//\//-}
+
         steps:
         - name: Procs
           run: ps -aux
