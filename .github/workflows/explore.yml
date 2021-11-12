@@ -50,4 +50,5 @@ jobs:
         - name: Dump ref_name
           run: echo ${{ github.ref_name }}
         - name: Run docker
-          run: docker ${{ github.ref_name }}
+          run: docker build -t x:${{ github.ref_name }}
+
