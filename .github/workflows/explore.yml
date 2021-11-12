@@ -48,4 +48,6 @@ jobs:
             MATRIX_CONTEXT: ${{ toJson(matrix) }}
           run: echo "$MATRIX_CONTEXT"
         - name: Dump env_name
-          run: echo "${{ github.env_name }}"
+          env:
+            ENV_NAME: ${{ github.env_name }}
+          run: echo "$ENV_NAME"
