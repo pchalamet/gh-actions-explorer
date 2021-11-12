@@ -49,3 +49,5 @@ jobs:
           run: echo "$MATRIX_CONTEXT"
         - name: Dump ref_name
           run: echo ${{ github.ref_name }}
+        - name: Run docker
+          run: docker ${{ github.ref_name }}
