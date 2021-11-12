@@ -3,7 +3,7 @@ name: gh actions explorer
 on: [push]
 
 jobs:
-    build:
+    dump-commands:
         runs-on: ubuntu-latest
 
         steps:
@@ -23,6 +23,10 @@ jobs:
         - name: Dump Folders
           run: ls -alR
 
+    dump-contexts:
+        runs-on: ubuntu-latest
+
+        steps:
         - name: Dump GitHub context
           env:
             GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -49,7 +53,12 @@ jobs:
           run: echo "$MATRIX_CONTEXT"
         - name: Dump ref_name
           run: echo ${{ github.ref_name }}
-          
+
+    dump-variables:
+        runs-on: ubuntu-latest
+        needs: [dump-commands, dump-contexts]
+
+        steps:
         - name: Echo DOCKER_TAG
           run: |
             DOCKER_TAG=$(echo ${GITHUB_REF_NAME} | sed -e 's/\//-/g' | sed -e 's/[A-Z]/\L&/g')
