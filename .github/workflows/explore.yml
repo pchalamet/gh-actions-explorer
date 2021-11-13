@@ -64,6 +64,16 @@ jobs:
             DOCKER_TAG=$(echo ${GITHUB_REF_NAME} | sed -e 's/\//-/g' | sed -e 's/[A-Z]/\L&/g')
             echo ${DOCKER_TAG}
 
+    deploy-dev:
+        runs-on: ubuntu-latest
+        if: github.ref_type == 'tag'
+        environment: dev
+        needs: dump-variables
+
+        steps:
+          - name: deploy
+            run: echo "deploying to dev"
+
     deploy-prod:
         runs-on: ubuntu-latest
         if: github.ref_type == 'tag'
