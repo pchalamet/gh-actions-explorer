@@ -37,7 +37,11 @@ jobs:
             with:
               name: planfiles
 
+          - run: terraform init
+            working-directory: ${{ env.working-directory }}
+
           - run: terraform apply -auto-approve dev.planfile 
+            working-directory: ${{ env.working-directory }}
 
     deploy-prod:
         runs-on: ubuntu-latest
