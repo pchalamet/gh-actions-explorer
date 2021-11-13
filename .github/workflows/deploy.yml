@@ -22,7 +22,7 @@ jobs:
         runs-on: ubuntu-latest
         if: github.ref_type == 'tag'
         environment: prod
-        needs: dev
+        needs: plan
 
         steps:
           - name: deploy
