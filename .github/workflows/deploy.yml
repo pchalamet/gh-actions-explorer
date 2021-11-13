@@ -5,9 +5,29 @@ on: [push]
 jobs:
     plan:
         runs-on: ubuntu-latest
+        env:
+            working-directory: Deployment
+
         steps:
-          - name: deploy
-            run: echo "planning to dev"
+          - uses: hashicorp/setup-terraform@v1
+            with:
+              terraform_version: 1.0.6
+
+          - name: Terraform init
+            id: init
+            run: terraform init -upgrade
+            working-directory: ${{ env.working-directory }}
+
+          - name: Terraform plan
+            id: init
+            run: terraform plan -out=dev.planfile
+            working-directory: ${{ env.working-directory }}
+
+          - name: Upload artifacts
+            uses: actions/upload-artifact@v2
+            with:
+              name: planfiles
+              path: Deployment/*.planfile
 
     deploy-dev:
         runs-on: ubuntu-latest
