@@ -10,15 +10,11 @@ jobs:
 
         steps:
           - uses: hashicorp/setup-terraform@v1
-            with:
-              terraform_version: 1.0.6
 
-          - name: Terraform init
-            run: terraform init -upgrade
+          - run: terraform init
             working-directory: ${{ env.working-directory }}
 
-          - name: Terraform plan
-            run: terraform plan -out=dev.planfile
+          - run: terraform plan -out=dev.planfile
             working-directory: ${{ env.working-directory }}
 
           - name: Upload artifacts
