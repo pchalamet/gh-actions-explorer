@@ -39,6 +39,7 @@ jobs:
           - uses: actions/download-artifact@v2
             with:
               name: planfiles
+              path: ${{ env.working-directory }}
 
           - run: terraform init
             working-directory: ${{ env.working-directory }}
