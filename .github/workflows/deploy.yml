@@ -1,9 +1,6 @@
 name: deploy
 
-on:
-    push:
-        tags:
-            - '**'
+on: push
 
 jobs:
     plan:
@@ -27,12 +24,36 @@ jobs:
               name: planfiles
               path: Deployment/*.planfile
 
+    deploy-dev:
+        runs-on: ubuntu-latest
+        env:
+            working-directory: Deployment
+        environment: dev
+        needs: plan
+
+        steps:
+          - uses: actions/checkout@v2
+          - uses: hashicorp/setup-terraform@v1
+          - uses: hashicorp/setup-terraform@v1
+
+          - uses: actions/download-artifact@v2
+            with:
+              name: planfiles
+              path: ${{ env.working-directory }}
+
+          - run: terraform init
+            working-directory: ${{ env.working-directory }}
+
+          - run: terraform apply -auto-approve dev.planfile 
+            working-directory: ${{ env.working-directory }}
+
     deploy-prod:
         runs-on: ubuntu-latest
         env:
             working-directory: Deployment
         environment: prod
         needs: plan
+        if: github.ref_type == 'tag'
 
         steps:
           - uses: actions/checkout@v2
