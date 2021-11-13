@@ -30,8 +30,14 @@ jobs:
         needs: plan
 
         steps:
-          - name: deploy
-            run: echo "deploying to dev"
+          - uses: hashicorp/setup-terraform@v1
+          - uses: hashicorp/setup-terraform@v1
+
+          - uses: actions/download-artifact@v2
+            with:
+              name: planfiles
+
+          - run: terraform apply -out=dev.planfile
 
     deploy-prod:
         runs-on: ubuntu-latest

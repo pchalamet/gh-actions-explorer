@@ -1,4 +1,5 @@
 
-resource "null_resource" "test" {
-
+resource "local_file" "test" {
+    content = "foo!"
+    filename = "foo.bar"
 }
