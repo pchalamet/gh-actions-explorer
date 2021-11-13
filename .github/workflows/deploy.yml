@@ -26,6 +26,8 @@ jobs:
 
     deploy-dev:
         runs-on: ubuntu-latest
+        env:
+            working-directory: Deployment
         environment: dev
         needs: plan
 
