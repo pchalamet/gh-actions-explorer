@@ -22,3 +22,9 @@ jobs:
             DOCKER_TAG=$(echo ${GITHUB_REF_NAME} | sed -e 's/\//-/g' | sed -e 's/[A-Z]/\L&/g')
             docker build -t ghcr.io/pchalamet/gh-actions-explorer:${DOCKER_TAG} --build-arg config=Release .
             docker push ghcr.io/pchalamet/gh-actions-explorer:${DOCKER_TAG}
+
+    deploy:
+      uses: pchalamet/gh-actions-explorer/.github/workflows/deploy.yml
+      with:
+            label: ${{ github.ref_name }}
+            label-type: $${ github.ref_type }}
