@@ -24,7 +24,7 @@ jobs:
             docker push ghcr.io/pchalamet/gh-actions-explorer:${DOCKER_TAG}
 
     deploy:
-      uses: pchalamet/gh-actions-explorer/.github/workflows/deploy.yml@master
+      uses: pchalamet/gh-actions-explorer/.github/workflows/deploy.yml@0df96a9
       with:
             label: ${{ github.ref_name }}
             label-type: $${ github.ref_type }}
