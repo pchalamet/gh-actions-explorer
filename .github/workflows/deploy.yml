@@ -37,7 +37,7 @@ jobs:
             with:
               name: planfiles
 
-          - run: terraform apply -out=dev.planfile
+          - run: terraform apply -auto-approve dev.planfile 
 
     deploy-prod:
         runs-on: ubuntu-latest
