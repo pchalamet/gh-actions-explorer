@@ -1,6 +1,9 @@
 name: deploy
 
-on: push
+on:
+    push:
+        tags:
+            - *
 
 jobs:
     plan:
@@ -24,11 +27,11 @@ jobs:
               name: planfiles
               path: Deployment/*.planfile
 
-    deploy-dev:
+    deploy-prod:
         runs-on: ubuntu-latest
         env:
             working-directory: Deployment
-        environment: dev
+        environment: prod
         needs: plan
 
         steps:
@@ -46,13 +49,3 @@ jobs:
 
           - run: terraform apply -auto-approve dev.planfile 
             working-directory: ${{ env.working-directory }}
-
-    deploy-prod:
-        runs-on: ubuntu-latest
-        if: github.ref_type == 'tag'
-        environment: prod
-        needs: plan
-
-        steps:
-          - name: deploy
-            run: echo "deploying to prod"
