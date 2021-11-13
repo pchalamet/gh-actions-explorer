@@ -5,18 +5,14 @@ on: [push]
 jobs:
     plan:
         runs-on: ubuntu-latest
-        if: github.ref_type == 'tag'
-        needs: dump-variables
-
         steps:
           - name: deploy
             run: echo "planning to dev"
 
     deploy-dev:
         runs-on: ubuntu-latest
-        if: github.ref_type == 'tag'
         environment: dev
-        needs: dump-variables
+        needs: plan
 
         steps:
           - name: deploy
@@ -26,7 +22,7 @@ jobs:
         runs-on: ubuntu-latest
         if: github.ref_type == 'tag'
         environment: prod
-        needs: dump-variables
+        needs: dev
 
         steps:
           - name: deploy
