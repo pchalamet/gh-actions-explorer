@@ -41,6 +41,11 @@ jobs:
               name: planfiles
               path: ${{ env.working-directory }}
 
+          - name: Dump GitHub context
+            env:
+              GITHUB_CONTEXT: ${{ toJson(github) }}
+            run: echo "$GITHUB_CONTEXT"
+  
           - run: terraform init
             working-directory: ${{ env.working-directory }}
 
