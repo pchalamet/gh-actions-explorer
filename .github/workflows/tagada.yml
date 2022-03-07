@@ -1,22 +1,65 @@
-on: push
+name: explore
+
+on: [push]
 
 jobs:
-    build:
+    dump-commands:
         runs-on: ubuntu-latest
 
         steps:
-        - name: Cloning repository
-          uses: actions/checkout@v1
+        - name: Procs
+          run: ps -aux
 
-        - name: Docker Login
-          uses: azure/docker-login@v1
+        - name: Pwd
+          run: pwd
+
+        - name: Env
+          run: env
+
+        - uses: actions/checkout@v1
           with:
-            login-server: ghcr.io
-            username: $GITHUB_ACTOR
-            password: ${{ secrets.GITHUB_TOKEN }}
+              path: ${{ github.repository }}
 
-        - name: Docker Build
+        - name: Dump Folders
+          run: ls -alR
+
+    dump-contexts:
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Dump GitHub context
+          env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+          run: echo "$GITHUB_CONTEXT"
+        - name: Dump job context
+          env:
+            JOB_CONTEXT: ${{ toJson(job) }}
+          run: echo "$JOB_CONTEXT"
+        - name: Dump steps context
+          env:
+            STEPS_CONTEXT: ${{ toJson(steps) }}
+          run: echo "$STEPS_CONTEXT"
+        - name: Dump runner context
+          env:
+            RUNNER_CONTEXT: ${{ toJson(runner) }}
+          run: echo "$RUNNER_CONTEXT"
+        - name: Dump strategy context
+          env:
+            STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+          run: echo "$STRATEGY_CONTEXT"
+        - name: Dump matrix context
+          env:
+            MATRIX_CONTEXT: ${{ toJson(matrix) }}
+          run: echo "$MATRIX_CONTEXT"
+        - name: Dump ref_name
+          run: echo ${{ github.ref_name }}
+
+    dump-variables:
+        runs-on: ubuntu-latest
+        needs: [dump-commands, dump-contexts]
+
+        steps:
+        - name: Echo DOCKER_TAG
           run: |
             DOCKER_TAG=$(echo ${GITHUB_REF_NAME} | sed -e 's/\//-/g' | sed -e 's/[A-Z]/\L&/g')
-            docker build -t ghcr.io/pchalamet/gh-actions-explorer:${DOCKER_TAG} --build-arg config=Release .
-            docker push ghcr.io/pchalamet/gh-actions-explorer:${DOCKER_TAG}
+            echo ${DOCKER_TAG}
