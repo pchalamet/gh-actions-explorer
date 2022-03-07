@@ -1,5 +1,3 @@
-name: explore
-
 on: [push]
 
 jobs:
